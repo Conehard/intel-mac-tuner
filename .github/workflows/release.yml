@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to create (e.g. v0.1.0)"
+        required: true
+        default: "v0.1.0"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build and package (macOS Intel)
+    runs-on: macos-15-intel # Intel x86_64 runner
+    env:
+      MACOSX_DEPLOYMENT_TARGET: "10.13"
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Rust
+        run: |
+          rustup update stable
+          rustup default stable
+          rustc --version
+
+      - name: Build release binaries
+        run: cargo build --release --workspace --locked
+
+      - name: Build Turbo Boost kext
+        run: sh kext/build-kext.sh
+
+      - name: Build the .app
+        run: scripts/make-app.sh "$PWD/dist-app"
+
+      - name: Package
+        run: |
+          set -eu
+          PKG=intel-mac-tuner
+          rm -rf "$PKG"
+          mkdir -p "$PKG"
+          cp target/release/tunerctl target/release/intelmactunerd "$PKG/"
+          cp -R "dist-app/Intel Mac Tuner.app" "$PKG/"
+          cp -R kext/DisableTurbo.kext "$PKG/"
+          cp scripts/install.sh "$PKG/"
+          cp README.md LICENSE "$PKG/"
+          chmod +x "$PKG/install.sh"
+          ZIP=intel-mac-tuner-macos-x86_64.zip
+          ditto -c -k --sequesterRsrc --keepParent "$PKG" "$ZIP"
+          echo "ZIP=$ZIP" >> "$GITHUB_ENV"
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          files: ${{ env.ZIP }}
+          generate_release_notes: true

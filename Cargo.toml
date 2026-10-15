@@ -1,0 +1,14 @@
+[workspace]
+resolver = "2"
+members = ["crates/smc", "crates/tuner", "crates/tunerctl", "crates/menubar"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-only"
+rust-version = "1.77"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true

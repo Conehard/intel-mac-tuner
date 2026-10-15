@@ -1,0 +1,21 @@
+[package]
+name = "tuner"
+description = "Intel Mac Tuner daemon and control logic"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[features]
+# Compiles the power code (IOKit/CoreFoundation) outside macOS only for type-checking.
+check-ffi = ["smc/check-ffi"]
+
+[dependencies]
+smc = { path = "../smc" }
+
+[dev-dependencies]
+smc = { path = "../smc", features = ["testing"] }
+
+[[bin]]
+name = "intelmactunerd"
+path = "src/bin/intelmactunerd.rs"

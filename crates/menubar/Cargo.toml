@@ -1,0 +1,18 @@
+[package]
+name = "menubar"
+description = "Intel Mac Tuner menu bar app (pure Rust + Objective-C runtime, no Xcode)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[features]
+# Compiles the AppKit code outside macOS only for type-checking.
+check-ffi = []
+
+[dependencies]
+tuner = { path = "../tuner" }
+
+[[bin]]
+name = "intel-mac-tuner-menu"
+path = "src/main.rs"

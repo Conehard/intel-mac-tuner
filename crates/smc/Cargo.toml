@@ -1,0 +1,16 @@
+[package]
+name = "smc"
+description = "Apple SMC (System Management Controller) access on Intel Macs via IOKit"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[features]
+# Compiles the IOKit backend even outside macOS, only for type-checking
+# (`cargo check --features check-ffi`). Does not link or run.
+check-ffi = []
+# Exposes `smc::mock` (fake SMC) for other crates' tests.
+testing = []
+
+[dependencies]
