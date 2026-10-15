@@ -20,6 +20,12 @@
   <a href="https://github.com/Conehard/intel-mac-tuner/releases/latest"><b>⬇ Download the latest release</b></a>
 </p>
 
+<p align="center">
+  <img src="assets/screenshots/menu.png" width="320" alt="Intel Mac Tuner menu open from the macOS menu bar: temperature, fan speed, fan mode, Turbo Boost and Optimize system">
+</p>
+
+<p align="center"><sub>Temperature and fan speed in the menu bar. Everything else is one click away.</sub></p>
+
 Older Intel Macs (MacBook Pro, MacBook Air, iMac, Mac mini) run hot, spin their fans loud
 and stutter under load. Intel Mac Tuner brings together, in a single tool, what helps
 those machines stay productive:
@@ -225,7 +231,7 @@ To remove the menu bar app, quit it and delete `/Applications/Intel Mac Tuner.ap
 | `scripts/make-app.sh` | builds the `.app` with Info.plist, icon and an ad-hoc signature |
 | `scripts/install.sh` | one-step installer shipped inside each release zip |
 | `.github/workflows` | CI (format, lint, tests) and the Release build |
-| `assets/` | app icon (`icon.png`, `AppIcon.iconset`) and its generator |
+| `assets/` | app icon (`icon.png`, `AppIcon.iconset`), its generator and the README screenshot |
 
 ## Tests
 
